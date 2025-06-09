@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Queue System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+      width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+      color: #555;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    #status {
+      font-size: 1.1em;
+      padding: 15px;
+      background-color: #e0f7fa;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .notify {
+      background-color: #ffd54f;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    .back-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(5px);
+      padding: 10px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .back-button a {
+      text-decoration: none;
+      color: black;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Smart Queue System</h2>
+  
+  <label for="center">Select Service Center:</label>
+  <select id="center" onchange="updateQueueMessage()">
+    <option value="hospital">City Hospital</option>
+    <option value="bank">Downtown Bank</option>
+    <option value="rto">Regional Transport Office</option>
+    <option value="food">Food House</option>
+  </select>
+
+  <p id="queueMessage">Queue YOU in the following: City Hospital</p>
+
+  <button onclick="joinQueue()">Join Queue</button>
+
+  <div id="status"></div>
+  <div class="notify" id="notify">Notification will appear here</div>
+</div>
+
+<div class="back-button">
+  <a href="index.html">← Back</a>
+</div>
+
+<script>
+  let queuePosition = 0;
+
+  function updateQueueMessage() {
+    const center = document.getElementById('center').value;
+    const queueMessage = document.getElementById('queueMessage');
+    queueMessage.innerHTML = `Queue YOU in the following: ${getCenterName(center)}`;
+  }
+
+  function joinQueue() {
+    const center = document.getElementById('center').value;
+    queuePosition = Math.floor(Math.random() * 100) + 1;
+
+    const statusDiv = document.getElementById('status');
+    const notifyDiv = document.getElementById('notify');
+
+    statusDiv.style.display = "block";
+    notifyDiv.style.display = "none";
+
+    statusDiv.innerHTML = `
+      <strong>Center:</strong> ${getCenterName(center)}<br/>
+      <strong>Your position in queue:</strong> ${queuePosition}
+    `;
+  }
+
+  function getCenterName(center) {
+    switch(center) {
+      case "hospital": return "City Hospital";
+      case "bank": return "Downtown Bank";
+      case "rto": return "Regional Transport Office";
+      case "food": return "Food House";
+      default: return "Selected Center";
+    }
+  }
+</script>
+
+</body>
+</html>
